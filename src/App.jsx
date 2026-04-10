@@ -76,23 +76,33 @@ const fetchUsers = () => {
   };
 
   // ➕ add user
-  const handleAddUser = async () => {
-    const token = localStorage.getItem("token");
+const handleAddUser = async () => {
+  console.log("🔥 ADD USER CLICKED");
 
-    const res = await fetch("https://node-backend-api-72zx.onrender.com/users/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name,
-        email: newEmail,
-        password: newPassword,
-      }),
-    });
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await fetch(
+      "https://node-backend-api-72zx.onrender.com/users/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          email: newEmail,
+          password: newPassword,
+        }),
+      }
+    );
+
+    console.log("STATUS:", res.status); // 👈 ADD THIS
 
     const data = await res.json();
+
+    console.log("RESPONSE:", data); // 👈 ADD THIS
 
     if (data.success) {
       alert("User added ✅");
@@ -101,11 +111,16 @@ const fetchUsers = () => {
       setNewPassword("");
       fetchUsers();
     } else {
-      alert("Error ❌");
+      alert(data.message || "Error 1 ❌");
     }
-  };
 
-    const filteredUsers = users.filter((user) =>
+  } catch (error) {
+    console.error("ADD USER ERROR:", error); // 👈 IMPORTANT
+    alert("Something went wrong ❌");
+  }
+};
+
+const filteredUsers = users.filter((user) =>
   user.email.toLowerCase().includes(search.toLowerCase())
 );
 
