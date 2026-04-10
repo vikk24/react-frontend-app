@@ -79,6 +79,12 @@ const fetchUsers = () => {
 const handleAddUser = async () => {
   console.log("🔥 ADD USER CLICKED");
 
+  // 🔥 FRONTEND VALIDATION
+  if (!name || !newEmail || !newPassword) {
+    alert("⚠️ Please fill all fields");
+    return; // stop API call
+  }
+
   const token = localStorage.getItem("token");
 
   try {
@@ -98,11 +104,7 @@ const handleAddUser = async () => {
       }
     );
 
-    console.log("STATUS:", res.status); // 👈 ADD THIS
-
     const data = await res.json();
-
-    console.log("RESPONSE:", data); // 👈 ADD THIS
 
     if (data.success) {
       alert("User added ✅");
@@ -111,15 +113,14 @@ const handleAddUser = async () => {
       setNewPassword("");
       fetchUsers();
     } else {
-      alert(data.message || "Error 1 ❌");
+      alert(data.message || "Error ❌");
     }
 
   } catch (error) {
-    console.error("ADD USER ERROR:", error); // 👈 IMPORTANT
+    console.error(error);
     alert("Something went wrong ❌");
   }
 };
-
 const filteredUsers = users.filter((user) =>
   user.email.toLowerCase().includes(search.toLowerCase())
 );
