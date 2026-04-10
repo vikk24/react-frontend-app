@@ -79,7 +79,7 @@ const fetchUsers = () => {
   const handleAddUser = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("https://node-backend-api-72zx.onrender.com/users", {
+    const res = await fetch("https://node-backend-api-72zx.onrender.com/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
