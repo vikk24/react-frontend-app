@@ -64,7 +64,7 @@ const fetchUsers = () => {
       setIsLoggedIn(true);
       fetchUsers();
     } else {
-      alert("Login failed ❌");
+      alert(data.message || "Login failed ❌");
     }
   };
 
@@ -107,16 +107,15 @@ const handleAddUser = async () => {
     const data = await res.json();
 
   if (data.success) {
-  alert("User added ✅");
-} else {
-  console.log("FULL RESPONSE:", data); // 👈 DEBUG
-
-  if (data && data.message) {
-    alert(data.message); // ✅ SHOW BACKEND MESSAGE
+    alert("User added ✅");
+    setName("");
+    setNewEmail("");
+    setNewPassword("");
+    fetchUsers();
   } else {
-    alert("Something went wrong ❌");
+    console.log("API RESPONSE:", data); // debug
+    alert(data.message || "Error ❌");
   }
-}
 
   } catch (error) {
     console.error(error);
