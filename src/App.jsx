@@ -106,15 +106,17 @@ const handleAddUser = async () => {
 
     const data = await res.json();
 
-    if (data.success) {
-      alert("User added ✅");
-      setName("");
-      setNewEmail("");
-      setNewPassword("");
-      fetchUsers();
-    } else {
-      alert(data.message || "Error ❌");
-    }
+  if (data.success) {
+  alert("User added ✅");
+} else {
+  console.log("FULL RESPONSE:", data); // 👈 DEBUG
+
+  if (data && data.message) {
+    alert(data.message); // ✅ SHOW BACKEND MESSAGE
+  } else {
+    alert("Something went wrong ❌");
+  }
+}
 
   } catch (error) {
     console.error(error);
